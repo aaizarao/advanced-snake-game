@@ -1,5 +1,6 @@
 #include <iostream>
 #include "objPosArrayList.h"
+#include "objPos.h"
 
 using namespace std;
 
