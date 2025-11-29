@@ -19,8 +19,64 @@ objPos::objPos(int xPos, int yPos, char sym)
 // Respect the rule of six / minimum four
 // [TODO] Implement the missing special member functions to meet the minimum four rule
 
+//COPY CONSTRUCTOR
+objPos::objPos(const objPos& o)
+{
+    pos = new Pos; //allocating new heap memory
+    pos->x = o.pos->x;
+    pos->y = o.pos->y;
+    symbol = o.symbol;
+}
 
+//COPY ASSIGNMENT OPERATOR
+objPos& objPos::operator=(const objPos& o)
+{
+    if(this != &o) //checking if not copying self
+    {
+        delete pos; //delete current memory
+        pos = new Pos; //add new memory to deep copy
+        pos->x = o.pos->x;
+        pos->y = o.pos->y;
+        symbol = o.symbol;
+    }
 
+    return *this; //return current object
+}
+
+//MOVE CONSTRUCTOR
+objPos::objPos(objPos&& o) noexcept
+{
+    //take other pointer
+    pos = o.pos;
+    symbol = o.symbol;
+    //make other pointers empty
+    o.pos = nullptr;
+    o.symbol = 0;
+}
+
+//MOVE ASSIGNMENT OPERATOR
+objPos& objPos::operator=(objPos&& o) noexcept
+{
+    if(this != &o)
+    {
+        delete pos; //delete old memory
+        //take other pointer
+        pos = o.pos;
+        symbol = o.symbol;
+        //make other pointers empty
+        o.pos = nullptr;
+        o.symbol = 0;
+    }
+
+    return *this; 
+}
+
+//DESTRUCTOR
+objPos::~objPos()
+{
+    delete pos; //freeing heap memory
+    pos=nullptr; //point the pos pointer to nothing
+}
 
 void objPos::setObjPos(objPos o)
 {
