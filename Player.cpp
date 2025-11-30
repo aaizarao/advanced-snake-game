@@ -28,12 +28,8 @@ void Player::getPlayerPos(objPos &returnPos) const
 void Player::updatePlayerDir()
 {
     // PPA3 input processing logic
-    char input = 0;
-    
-    if(MacUILib_hasChar())
-    {
-        input = MacUILib_getChar();
-    }
+    char input = mainGameMechsRef-> getInput();
+
     switch(input)
     {
         //Move up
@@ -72,15 +68,16 @@ void Player::updatePlayerDir()
         break;
     }
 
+    mainGameMechsRef-> clearInput();
+
 }
 
 //MOVEMENT
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    //temporary
-    int len = 20;
-    int wid = 10;
+    int borderX = mainGameMechsRef-> getBoardSizeX();
+    int borderY = mainGameMechsRef-> getBoardSizeY();
     int x = playerPos.pos->x;
     int y = playerPos.pos->y;
 
@@ -109,10 +106,10 @@ void Player::movePlayer()
     //wraparound logic
     if(x <= 0) //hits left side
     {
-        x = len - 2; //wraparound to right side
+        x = borderX - 2; //wraparound to right side
     }
 
-    else if(x >= len-1) //hits right side
+    else if(x >= borderX-1) //hits right side
     {
         x = 1; //wraparound to left side
 
@@ -120,10 +117,10 @@ void Player::movePlayer()
 
     if(y <= 0) //hits top side
     {
-        y = wid-2; //wraparound to bottom
+        y = borderY-2; //wraparound to bottom
     }
 
-    else if(y >= wid-1) //hits bottom side
+    else if(y >= borderY-1) //hits bottom side
     {
         y = 1; //wraparound to top
     }

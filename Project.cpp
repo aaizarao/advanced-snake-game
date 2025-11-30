@@ -7,26 +7,20 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-#include "Player.h" //temorary
+#include "Player.h" //temporary
+#include "GameMechs.h"
 
 
 using namespace std;
 
 //DEFINITIONS
 #define DELAY_CONST 100000
-#define length 20 //the boards x value
-#define width 10 //the boards y value
-
-//BOOLEANS
-bool exitFlag;
 
 //GLOBAL VARIABLES
-char input;
+
+//POINTERS
+GameMechs* gm = nullptr;
 Player* playerObj = nullptr;
-
-//STRUCTS
-
-//ENUMERATIONS
 
 //FUNCTION PROTOTYPES
 void Initialize(void);
@@ -43,7 +37,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(!gm-> getExitFlagStatus())  
     {
         GetInput();
         RunLogic();
@@ -61,24 +55,31 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false; //not exiting
-    input = 0; // NULL
-   playerObj = new Player(nullptr); //temporary
+    gm = new GameMechs(20,10);
+    playerObj = new Player(gm);
 
 }
 
 //INPUT COLLECTION ROUTINE
 void GetInput(void)
 {
-       if(MacUILib_hasChar()) //if a key on the keyboard is pressed
+    char cmd = 0;
+
+    if(MacUILib_hasChar())
     {
-        input = MacUILib_getChar(); //process the input by user
+        cmd = MacUILib_getChar();
     }
+    gm->setInput(cmd);
 }
 
 //MAIN LOGIC ROUTINE
 void RunLogic(void)
 {
+    char input = gm-> getInput();
+    if(input == ' ')
+    {
+        gm-> setExitTrue();
+    }
     playerObj-> updatePlayerDir();
     playerObj-> movePlayer();
 }
@@ -88,31 +89,24 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
-    //exiting the game (edit later)
-    if(input == ' ')
-    {
-        exitFlag = true;
-    }
-
-    //temporary 
-    objPos pPos;
-    playerObj->getPlayerPos(pPos);
+    objPos p;
+    playerObj->getPlayerPos(p);
 
     //Game Board Setup
     int x,y;
-    for(y=0; y<width;y++)
+    for(y=0; y<gm-> getBoardSizeY();y++)
     {
-        for(x=0;x<length;x++)
+        for(x=0;x<gm-> getBoardSizeX();x++)
         {
             //top row  bottom row      left col  right col
-            if(y==0 || y == width-1 || x == 0 || x == length-1)
+            if(y==0 || y == gm-> getBoardSizeY()-1 || x == 0 || x == gm-> getBoardSizeX()-1)
             {
                 MacUILib_printf("#");
             }
             //Drawing player '*' based on coordinate specified
-            else if (x==pPos.pos-> x && y == pPos.pos-> y)
+            else if (x==p.pos-> x && y == p.pos-> y)
             {
-                MacUILib_printf("%c", pPos.getSymbol());
+                MacUILib_printf("%c", p.getSymbol());
             }
             //spaces throughout rest of the screen
             else
@@ -141,5 +135,6 @@ void CleanUp(void)
 
     MacUILib_uninit();
 
-   delete playerObj;
+    delete gm;
+    delete playerObj;
 }

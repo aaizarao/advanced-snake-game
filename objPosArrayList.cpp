@@ -1,5 +1,4 @@
 #include "objPosArrayList.h"
-#include <stdexcept>
 
 objPosArrayList::objPosArrayList(){ // default constructor
     aList = new objPos[ARRAY_MAX_CAP];
@@ -11,19 +10,13 @@ objPosArrayList::~objPosArrayList(){ // destructor
     delete[] aList; // deallocating data
 }
 
-objPos objPosArrayList::getHeadElement() const{
-    if(listSize ==0)
-    {
-        throw std::out_of_range("List empty since no head element.");
-    }
+objPos objPosArrayList::getHeadElement() const
+{
     return aList[0];
 }
 
-objPos objPosArrayList::getTailElement() const{
-    if(listSize ==0)
-    {
-        throw std::out_of_range("List empty since no tail element.");
-    }
+objPos objPosArrayList::getTailElement() const
+{
     return aList[listSize - 1];
 }
 
@@ -31,59 +24,62 @@ int objPosArrayList::getSize() const{
     return listSize;
 }
 
-objPos objPosArrayList::getElement(int index) const{
-    if(index < 0 || index >= listSize)
-    {
-        throw std::out_of_range("Index out of bounds");
-    }
+objPos objPosArrayList::getElement(int index) const
+{
     return aList[index];
 }
 
-void objPosArrayList::insertHead(objPos thisPos){
-    if(listSize >= arrayCapacity){
-        throw std::overflow_error("No space left");
+void objPosArrayList::insertHead(objPos thisPos)
+{
+    if(listSize >= arrayCapacity)
+    {
+        return;
     }
-    else{
-        int i;
-        for(i = listSize - 1; i >= 0; i--){
-            aList[i+1] = aList[i]; // shifting of variables
-        } 
+    int i;
+    for(i = listSize - 1; i >= 0; i--)
+    {
+        aList[i+1] = aList[i]; // shifting of variables
+    } 
         
-        aList[0] = thisPos;
-        listSize += 1;
-    }
+    aList[0] = thisPos;
+    listSize += 1;
+    
 
 }
 
-void objPosArrayList::insertTail(objPos thisPos){
-    if(listSize>= arrayCapacity){
-        throw std::overflow_error("No space left");
+void objPosArrayList::insertTail(objPos thisPos)
+{
+    if(listSize>= arrayCapacity)
+    {
+        return;
     }
-    else{
-        aList[listSize] = thisPos;
-        listSize++;
-    }
+
+    aList[listSize] = thisPos;
+    listSize++;
 
 }
 
-void objPosArrayList::removeHead(){
-    if(listSize == 0){
-        throw std::underflow_error("No elements left"); // empty list
+void objPosArrayList::removeHead()
+{
+    if(listSize == 0)
+    {
+        return;
     }
-    else{
-        int i;
-        for(i = 1; i < listSize; i++){
-            aList[i-1] = aList[i];
-        }
-        listSize--;
+    int i;
+    for(i = 1; i < listSize; i++)
+    {
+        aList[i-1] = aList[i];
     }
+    listSize--;
 }
+
 
 void objPosArrayList::removeTail(){
-    if(listSize == 0){ 
-        throw std::underflow_error("No elements left"); // empty list
+    if(listSize == 0)
+    { 
+        return;
     }
-    else{
-        listSize--; // makes last element accessible
-    }
+
+    listSize--; // makes last element accessible
+    
 }

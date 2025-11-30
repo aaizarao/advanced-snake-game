@@ -1,6 +1,5 @@
 #include "GameMechs.h"
 #include <time.h>
-#include <stdexcept>
 #include "MacUILib.h" //temporary
 
 GameMechs::GameMechs() // used to initialize
@@ -18,7 +17,8 @@ GameMechs::GameMechs(int boardX, int boardY)
 {
     // check if board size < 0
     if(boardX <= 0 || boardY <= 0){
-        throw std::invalid_argument("Invalid values.");
+        boardX = 1;
+        boardY = 1;
     }
 
     boardSizeX = boardX;
@@ -94,38 +94,37 @@ void GameMechs::clearInput()
 }
 
 // More methods should be added here
+
+objPos GameMechs::getFoodPos() const
+{
+    return food;
+}
 void GameMechs::generateFood(objPosArrayList* playerPosList){
-    int xRange = boardSizeX;
-    int yRange = boardSizeY;
-    int xmin = 1, xmax = xRange - 2;
-    int ymin = 1, ymax = yRange - 2;
+
+    int xmin = 1, xmax = boardSizeX - 2;
+    int ymin = 1, ymax = boardSizeY - 2;
 
     char foodchar = 'o';
-    int valid = 0;
 
-    while (!valid){
+    while (true){
         int playX = (rand() % (xmax - xmin + 1)) + xmin;
         int playY = (rand() % (ymax - ymin + 1)) + ymin;
-        int clash = 0;
+        bool clash = false;
 
        int i;
-       for (i = 0; i < playerPosList->getSize() ; i++){
+       for (i = 0; i < playerPosList->getSize() ; i++)
+       {
             objPos snakeseg = playerPosList->getElement(i);
-            if(playX == snakeseg.pos->x && playY == snakeseg.pos->y){ // check the positions for each segment
-                clash = 1; // collision detected
-                break; // continues looping and generating random numbersuntil valid equals 1
+            if(snakeseg.pos->x == playX && snakeseg.pos->y ==playY){ // check the positions for each segment
+                clash = true; // collision detected
             }
        }
 
-       if (clash == 0){
+       if (!clash){
             food.setObjPos(playX, playY, foodchar); // store the food object
-            valid = 1; // exit the loop
+            return;
        }
   
     }
 
-}
-
-objPos GameMechs::getFoodPos() const{
-    return food;
 }
