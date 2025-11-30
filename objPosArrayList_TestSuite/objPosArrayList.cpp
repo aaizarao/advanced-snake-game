@@ -1,54 +1,81 @@
+#include <iostream>
 #include "objPosArrayList.h"
+#include "objPos.h"
 
-// Check lecture contents on general purpose array list construction, 
-// and modify it to support objPos array list construction.
+using namespace std;
 
-objPosArrayList::objPosArrayList()
-{
-    
+objPosArrayList::objPosArrayList(){ // default constructor
+    aList = new objPos[ARRAY_MAX_CAP];
+    listSize = 0;
+
+    arrayCapacity = ARRAY_MAX_CAP;
 }
 
-objPosArrayList::~objPosArrayList()
-{
+objPosArrayList::~objPosArrayList(){ // destructor
+    delete[] aList; // deallocating data
+}
+
+objPos objPosArrayList::getHeadElement() const {
+    return aList[0];
+}
+
+objPos objPosArrayList::getTailElement() const {
+    return aList[listSize - 1];
+}
+
+int objPosArrayList::getSize() const {
+    return listSize;
+}
+
+objPos objPosArrayList::getElement(int index) const {
+    return aList[index];
+}
+
+void objPosArrayList::insertHead(objPos thisPos){
+    if(listSize == arrayCapacity){
+        cout << "No space left" << endl;
+    }
+    else{
+        int i;
+        for(i = listSize - 1; i >= 0; i--){
+            aList[i+1] = aList[i]; // shifting of variables
+        } 
+        
+        aList[0] = thisPos;
+        listSize += 1;
+    }
 
 }
 
-int objPosArrayList::getSize() const
-{
+void objPosArrayList::insertTail(objPos thisPos){
+    if(listSize == arrayCapacity){
+        cout << "No space left" << endl;
+    }
+    else{
+        aList[listSize] = thisPos;
+        listSize++;
+    }
 
 }
 
-void objPosArrayList::insertHead(objPos thisPos)
-{
-    
+void objPosArrayList::removeHead(){
+    if(listSize == 0){
+        cout << "No elements left" << endl; // empty list
+    }
+    else{
+        int i;
+        for(i = 1; i < listSize; i++){
+            aList[i-1] = aList[i];
+        }
+        listSize--;
+    }
 }
 
-void objPosArrayList::insertTail(objPos thisPos)
-{
-    
-}
-
-void objPosArrayList::removeHead()
-{
-    
-}
-
-void objPosArrayList::removeTail()
-{
-    
-}
-
-objPos objPosArrayList::getHeadElement() const
-{
-    
-}
-
-objPos objPosArrayList::getTailElement() const
-{
-    
-}
-
-objPos objPosArrayList::getElement(int index) const
-{
-    
+void objPosArrayList::removeTail(){
+    if(listSize == 0){ 
+        cout << "No elements left" << endl; // empty list
+    }
+    else{
+        listSize--; // makes last element accessible
+    }
 }

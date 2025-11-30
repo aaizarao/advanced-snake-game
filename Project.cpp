@@ -79,7 +79,8 @@ void GetInput(void)
 //MAIN LOGIC ROUTINE
 void RunLogic(void)
 {
-    
+    playerObj-> updatePlayerDir();
+    playerObj-> movePlayer();
 }
 
 //DRAW SCREEN ROUTINE
