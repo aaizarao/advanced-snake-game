@@ -7,21 +7,24 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
 
+    playerPosList = new objPosArrayList();
+    objPos initialPos(10,5,'*');
+    playerPosList->insertHead(initialPos); // inserting head in initial position
     // more actions to be included
-    playerPos.setObjPos(10,5,'*');
+
 }
 
 //DESTRUCTOR
 Player::~Player()
 {
-    // delete any heap members here
+    delete playerPosList; // delete any heap members here
 }
 
 //GETTER
-void Player::getPlayerPos(objPos &returnPos) const
+void Player::getPlayerPos(objPosArrayList &returnPos) const
 {
     // return the reference to the playerPos arrray list
-    returnPos = playerPos;
+    returnPos = *playerPosList;
 }
 
 //FSM
@@ -78,8 +81,10 @@ void Player::movePlayer()
     // PPA3 Finite State Machine logic
     int borderX = mainGameMechsRef-> getBoardSizeX();
     int borderY = mainGameMechsRef-> getBoardSizeY();
-    int x = playerPos.pos->x;
-    int y = playerPos.pos->y;
+
+    objPos currentHead = playerPosList->getHeadElement();
+    int x = currentHead.pos->x;
+    int y = currentHead.pos->y;
 
     switch(myDir)
     {
@@ -125,7 +130,18 @@ void Player::movePlayer()
         y = 1; //wraparound to top
     }
 
-    playerPos.setObjPos(x,y,playerPos.getSymbol());
+    objPos newHead(x, y, '*'); // new object created for new head position
+    objPos currentFood = mainGameMechsRef->getFoodPos();
+
+    if(newHead.pos->x == currentFood.pos->x && newHead.pos->y == currentFood.pos->y){
+        playerPosList->insertHead(newHead); // get new head position
+        mainGameMechsRef->generateFood(playerPosList); // generating a new food position
+        mainGameMechsRef->incrementScore(); // increasing score after eating food
+    }
+    else {
+        playerPosList->insertHead(newHead); // insert head in new position
+        playerPosList->removeTail(); // remove the tail from old position in every iteration
+    }
 }
 
 // More methods to be added

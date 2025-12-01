@@ -20,14 +20,14 @@ class Player
         Player(GameMechs* thisGMRef);
         ~Player();
 
-        void getPlayerPos(objPos &returnPos) const; // Upgrade this in iteration 3.       
+        void getPlayerPos(objPosArrayList &returnPos) const; // Upgrade this in iteration 3.       
         void updatePlayerDir();
         void movePlayer();
 
         // More methods to be added here
 
     private:
-        objPos playerPos; // Upgrade this in iteration 3.       
+        objPosArrayList* playerPosList; // points to a whole array, not a single position       
         enum Dir myDir;
 
         // Need a reference to the Main Game Mechanisms

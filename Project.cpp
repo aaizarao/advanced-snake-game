@@ -89,29 +89,48 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
-    objPos p;
-    playerObj->getPlayerPos(p);
+    objPosArrayList snakebody;
+    playerObj->getPlayerPos(snakebody);
+
+    objPos foodPos = gm->getFoodPos();
 
     //Game Board Setup
-    int x,y;
+    int x,y,i;
     for(y=0; y<gm-> getBoardSizeY();y++)
     {
         for(x=0;x<gm-> getBoardSizeX();x++)
         {
+            bool isSnake = false;
+            char body = ' ';
             //top row  bottom row      left col  right col
             if(y==0 || y == gm-> getBoardSizeY()-1 || x == 0 || x == gm-> getBoardSizeX()-1)
             {
                 MacUILib_printf("#");
             }
             //Drawing player '*' based on coordinate specified
-            else if (x==p.pos-> x && y == p.pos-> y)
+            else if (x==foodPos.pos->x && y == foodPos.pos->y)
             {
-                MacUILib_printf("%c", p.getSymbol());
+                MacUILib_printf("%c", foodPos.getSymbol());
+                
             }
             //spaces throughout rest of the screen
             else
             {
-                MacUILib_printf(" ");
+                for (i = 0; i < snakebody.getSize(); i++){
+                    objPos Seg = snakebody.getElement(i);
+                    if (x==Seg.pos->x && y==Seg.pos->y){
+                        isSnake = true;
+                        body = Seg.getSymbol();
+                        break;
+                    }
+                }
+
+                if (isSnake){
+                    MacUILib_printf("%c", body);
+                }
+                else {
+                    MacUILib_printf(" ");
+                }
             }
 
         }
