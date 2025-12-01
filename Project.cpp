@@ -21,7 +21,6 @@ using namespace std;
 //POINTERS
 GameMechs* gm = nullptr;
 Player* playerObj = nullptr;
-objPosArrayList* tempList = nullptr;
 
 //FUNCTION PROTOTYPES
 void Initialize(void);
@@ -60,12 +59,9 @@ void Initialize(void)
     playerObj = new Player(gm);
 
     //generating the intial food
-    tempList = new objPosArrayList();
-    objPos p;
-    playerObj-> getPlayerPos(p);
-    tempList-> insertHead(p);
-
-    gm-> generateFood(tempList);
+    objPosArrayList snakeBody;
+    playerObj->getPlayerPos(snakeBody);  // CORRECT - uses objPosArrayList
+    gm->generateFood(&snakeBody);  // Pass pointer to the list
 }
 
 //INPUT COLLECTION ROUTINE
@@ -89,15 +85,6 @@ void RunLogic(void)
         gm-> setExitTrue();
     }
 
-    //pressing f to generate new random food on board
-    if(input == 'f')
-    {
-        tempList->removeHead();
-        objPos p;
-        playerObj->getPlayerPos(p);
-        tempList-> insertHead(p);
-        gm->generateFood(tempList);
-    }
     playerObj-> updatePlayerDir();
     playerObj-> movePlayer();
     gm->clearInput();
@@ -108,19 +95,14 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
-<<<<<<< HEAD
     objPosArrayList snakebody;
     playerObj->getPlayerPos(snakebody);
 
     objPos foodPos = gm->getFoodPos();
-=======
-    objPos p;
-    playerObj-> getPlayerPos(p);
-    objPos food = gm-> getFoodPos();
->>>>>>> 0472f2e6a61b194d53df8887e5bc57547e64a096
+
 
     //Game Board Setup
-    int x,y,i;
+    int x,y;
     for(y=0; y<gm-> getBoardSizeY();y++)
     {
         for(x=0;x<gm-> getBoardSizeX();x++)
@@ -135,16 +117,12 @@ void DrawScreen(void)
             //Drawing player '*' based on coordinate specified
             else if (x==foodPos.pos->x && y == foodPos.pos->y)
             {
-                MacUILib_printf("%c", foodPos.getSymbol());
-                
-            }
-            else if(x == food.pos->x && y==food.pos->y)
-            {
-                MacUILib_printf("%c", food.getSymbol());
+                MacUILib_printf("%c", foodPos.getSymbol()); 
             }
             //spaces throughout rest of the screen
             else
             {
+                int i;
                 for (i = 0; i < snakebody.getSize(); i++){
                     objPos Seg = snakebody.getElement(i);
                     if (x==Seg.pos->x && y==Seg.pos->y){
@@ -185,5 +163,4 @@ void CleanUp(void)
 
     delete gm;
     delete playerObj;
-    delete tempList;
 }
