@@ -1,6 +1,5 @@
 #include "GameMechs.h"
 #include <time.h>
-#include "MacUILib.h" //temporary
 
 GameMechs::GameMechs() // used to initialize
 {

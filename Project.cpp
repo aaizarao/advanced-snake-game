@@ -9,6 +9,7 @@
 #include "objPos.h"
 #include "Player.h" //temporary
 #include "GameMechs.h"
+#include "objPosArrayList.h"
 
 
 using namespace std;
@@ -108,16 +109,9 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
-<<<<<<< HEAD
-    objPosArrayList snakebody;
-    playerObj->getPlayerPos(snakebody);
-
-    objPos foodPos = gm->getFoodPos();
-=======
     objPos p;
     playerObj-> getPlayerPos(p);
     objPos food = gm-> getFoodPos();
->>>>>>> 0472f2e6a61b194d53df8887e5bc57547e64a096
 
     //Game Board Setup
     int x,y,i;
@@ -180,7 +174,6 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
-
     MacUILib_uninit();
 
     delete gm;
