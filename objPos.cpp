@@ -2,10 +2,11 @@
 
 objPos::objPos()
 {
-    pos = new Pos;
+    pos = nullptr;  // Initialize to null first
+    pos = new Pos;  // Then allocate
     pos->x = 0;
     pos->y = 0;
-    symbol = 0; //NULL
+    symbol = 0;
 }
 
 objPos::objPos(int xPos, int yPos, char sym)
@@ -31,27 +32,30 @@ objPos::objPos(const objPos& o)
 //COPY ASSIGNMENT OPERATOR
 objPos& objPos::operator=(const objPos& o)
 {
-    if(this != &o) //checking if not copying self
+    if(this != &o)
     {
-        delete pos; //delete current memory
-        pos = new Pos; //add new memory to deep copy
-        pos->x = o.pos->x;
+        // REUSE existing memory instead of delete/new
+        pos->x = o.pos->x;    // Just copy the values
         pos->y = o.pos->y;
         symbol = o.symbol;
     }
-
-    return *this; //return current object
+    return *this;
 }
 
 //MOVE CONSTRUCTOR
 objPos::objPos(objPos&& o) noexcept
 {
-    //take other pointer
-    pos = o.pos;
-    symbol = o.symbol;
-    //make other pointers empty
-    o.pos = nullptr;
-    o.symbol = 0;
+    if(this != &o)
+    {
+        // Just copy values, don't delete/reallocate
+        pos->x = o.pos->x;
+        pos->y = o.pos->y;
+        symbol = o.symbol;
+        // Optionally reset the source if needed
+        o.pos->x = 0;
+        o.pos->y = 0;
+        o.symbol = 0;
+    }
 }
 
 //MOVE ASSIGNMENT OPERATOR
@@ -59,16 +63,16 @@ objPos& objPos::operator=(objPos&& o) noexcept
 {
     if(this != &o)
     {
-        delete pos; //delete old memory
-        //take other pointer
-        pos = o.pos;
+        if(pos != nullptr)    // ADD NULL CHECK
+        {
+            delete pos;
+        }
+        pos = new Pos;
+        pos->x = o.pos->x;
+        pos->y = o.pos->y;
         symbol = o.symbol;
-        //make other pointers empty
-        o.pos = nullptr;
-        o.symbol = 0;
     }
-
-    return *this; 
+    return *this;
 }
 
 //DESTRUCTOR
@@ -94,11 +98,7 @@ void objPos::setObjPos(int xPos, int yPos, char sym)
 
 objPos objPos::getObjPos() const
 {
-    objPos returnPos;
-    returnPos.pos->x = pos->x;
-    returnPos.pos->y = pos->y;
-    returnPos.symbol = symbol;
-    
+    objPos returnPos(pos->x, pos->y, symbol);  // Use parameterized constructor
     return returnPos;
 }
 

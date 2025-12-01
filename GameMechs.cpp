@@ -105,7 +105,10 @@ void GameMechs::generateFood(objPosArrayList* playerPosList){
 
     char foodchar = 'o';
 
-    while (true){
+    int maxAttempts = 1000;
+    int attempts = 0;
+
+    while (attempts < maxAttempts){
         int playX = (rand() % (xmax - xmin + 1)) + xmin;
         int playY = (rand() % (ymax - ymin + 1)) + ymin;
         bool clash = false;
@@ -123,6 +126,7 @@ void GameMechs::generateFood(objPosArrayList* playerPosList){
             food.setObjPos(playX, playY, foodchar); // store the food object
             return;
        }
+       attempts++;
   
     }
 
