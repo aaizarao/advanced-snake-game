@@ -7,13 +7,6 @@
 
 class Player
 {
-    // Construct the remaining declaration from the project manual.
-
-    // Only some sample members are included here
-
-    // You will include more data members and member functions to complete your design.
-
-    
     public:
         enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
 
@@ -28,7 +21,7 @@ class Player
 
     private:
         objPosArrayList* playerPosList; // points to a whole array, not a single position       
-        enum Dir myDir;
+        Dir myDir;
 
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;

@@ -34,7 +34,10 @@ objPos& objPos::operator=(const objPos& o)
 {
     if(this != &o)
     {
-        // REUSE existing memory instead of delete/new
+       if(pos == nullptr)
+       {
+        pos = new Pos;
+       }
         pos->x = o.pos->x;    // Just copy the values
         pos->y = o.pos->y;
         symbol = o.symbol;
@@ -45,17 +48,19 @@ objPos& objPos::operator=(const objPos& o)
 //MOVE CONSTRUCTOR
 objPos::objPos(objPos&& o) noexcept
 {
-    if(this != &o)
+    if(o.pos == nullptr)
     {
-        // Just copy values, don't delete/reallocate
-        pos->x = o.pos->x;
-        pos->y = o.pos->y;
-        symbol = o.symbol;
-        // Optionally reset the source if needed
-        o.pos->x = 0;
-        o.pos->y = 0;
-        o.symbol = 0;
+        pos = new Pos; //taking pointer
+        pos->x=0;
+        pos->y=0;
+        symbol=0;
+        return;
     }
+
+    pos = o.pos;
+    symbol = o.symbol;
+    o.pos = nullptr;
+    o.symbol=0;   
 }
 
 //MOVE ASSIGNMENT OPERATOR
@@ -63,14 +68,11 @@ objPos& objPos::operator=(objPos&& o) noexcept
 {
     if(this != &o)
     {
-        if(pos != nullptr)    // ADD NULL CHECK
-        {
-            delete pos;
-        }
-        pos = new Pos;
-        pos->x = o.pos->x;
-        pos->y = o.pos->y;
+        delete pos;
+        pos = o.pos;
         symbol = o.symbol;
+        o.pos = nullptr;
+        o.symbol = 0;
     }
     return *this;
 }
@@ -98,8 +100,7 @@ void objPos::setObjPos(int xPos, int yPos, char sym)
 
 objPos objPos::getObjPos() const
 {
-    objPos returnPos(pos->x, pos->y, symbol);  // Use parameterized constructor
-    return returnPos;
+    return objPos(pos->x, pos->y, symbol);  // Use parameterized constructor
 }
 
 char objPos::getSymbol() const
@@ -116,6 +117,5 @@ char objPos::getSymbolIfPosEqual(const objPos* refPos) const
 {
     if(isPosEqual(refPos))
         return symbol;
-    else
-        return 0;
+    return 0;
 }

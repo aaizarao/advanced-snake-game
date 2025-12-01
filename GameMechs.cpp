@@ -119,6 +119,7 @@ void GameMechs::generateFood(objPosArrayList* playerPosList){
             objPos snakeseg = playerPosList->getElement(i);
             if(snakeseg.pos->x == playX && snakeseg.pos->y ==playY){ // check the positions for each segment
                 clash = true; // collision detected
+                break;
             }
        }
 

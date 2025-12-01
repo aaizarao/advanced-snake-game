@@ -95,8 +95,8 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
-    objPosArrayList snakebody;
-    playerObj->getPlayerPos(snakebody);
+    objPosArrayList snake;
+    playerObj->getPlayerPos(snake);
 
     objPos foodPos = gm->getFoodPos();
 
@@ -107,38 +107,42 @@ void DrawScreen(void)
     {
         for(x=0;x<gm-> getBoardSizeX();x++)
         {
-            bool isSnake = false;
-            char body = ' ';
+            bool printed = false;
             //top row  bottom row      left col  right col
             if(y==0 || y == gm-> getBoardSizeY()-1 || x == 0 || x == gm-> getBoardSizeX()-1)
             {
                 MacUILib_printf("#");
+                printed= true;
             }
             //Drawing player '*' based on coordinate specified
             else if (x==foodPos.pos->x && y == foodPos.pos->y)
             {
                 MacUILib_printf("%c", foodPos.getSymbol()); 
+                printed = true;
             }
-            //spaces throughout rest of the screen
+
             else
             {
                 int i;
-                for (i = 0; i < snakebody.getSize(); i++){
-                    objPos Seg = snakebody.getElement(i);
-                    if (x==Seg.pos->x && y==Seg.pos->y){
-                        isSnake = true;
-                        body = Seg.getSymbol();
+                for (i = 0; i < snake.getSize(); i++)
+                {
+                    objPos Seg = snake.getElement(i);
+                    if (Seg.pos->x == x && Seg.pos->y == y)
+                    {
+                        MacUILib_printf("%c",Seg.getSymbol());
+                        printed = true;
                         break;
                     }
                 }
-
-                if (isSnake){
-                    MacUILib_printf("%c", body);
-                }
-                else {
-                    MacUILib_printf(" ");
-                }
             }
+            
+            if (!printed)
+            {
+                MacUILib_printf(" ");
+            }     
+            
+            MacUILib_printf(" ");
+            
 
         }
 

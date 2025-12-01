@@ -79,6 +79,12 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
+
+    //first dont move until a direction is chosen
+    if(myDir == STOP)
+    {
+        return;
+    }
     int borderX = mainGameMechsRef-> getBoardSizeX();
     int borderY = mainGameMechsRef-> getBoardSizeY();
 
@@ -131,16 +137,33 @@ void Player::movePlayer()
     }
 
     objPos newHead(x, y, '*'); // new object created for new head position
-    objPos currentFood = mainGameMechsRef->getFoodPos();
-
-    if(newHead.pos->x == currentFood.pos->x && newHead.pos->y == currentFood.pos->y){
-        playerPosList->insertHead(newHead); // get new head position
-        mainGameMechsRef->generateFood(playerPosList); // generating a new food position
-        mainGameMechsRef->incrementScore(); // increasing score after eating food
+    
+    //checking for self-collision
+    int i;
+    for(i =1; i<playerPosList->getSize();i++)
+    {
+        objPos seg = playerPosList->getElement(i);
+        if(seg.pos->x == x && seg.pos->y == y)
+        {
+            mainGameMechsRef->setLoseFlag();
+            mainGameMechsRef->setExitTrue();
+            return;
+        }
     }
-    else {
-        playerPosList->insertHead(newHead); // insert head in new position
-        playerPosList->removeTail(); // remove the tail from old position in every iteration
+
+    //checking for food collision
+    objPos food = mainGameMechsRef->getFoodPos();
+
+    if(x==food.pos->x && y == food.pos->y)
+    {
+        playerPosList->insertHead(newHead);
+        mainGameMechsRef->incrementScore();
+        mainGameMechsRef->generateFood(playerPosList);
+    }
+    else
+    {
+        playerPosList->insertHead(newHead);
+        playerPosList->removeTail();
     }
 }
 
