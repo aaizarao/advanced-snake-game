@@ -87,13 +87,17 @@ void RunLogic(void)
 
     playerObj-> updatePlayerDir();
     playerObj-> movePlayer();
-    gm->clearInput();
+  //  gm->clearInput();
 }
 
 //DRAW SCREEN ROUTINE
 void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
+
+    //display controls
+    MacUILib_printf("Score: %d\n", gm->getScore());
+    MacUILib_printf("Controls: W A S D to move and SPACE to quit\n\n");
 
     objPosArrayList snake;
     playerObj->getPlayerPos(snake);
@@ -140,10 +144,7 @@ void DrawScreen(void)
             {
                 MacUILib_printf(" ");
             }     
-            
-            MacUILib_printf(" ");
-            
-
+                
         }
 
         MacUILib_printf("\n"); //print new line after going through loop every time

@@ -24,7 +24,16 @@ Player::~Player()
 void Player::getPlayerPos(objPosArrayList &returnPos) const
 {
     // return the reference to the playerPos arrray list
-    returnPos = *playerPosList;
+    while(returnPos.getSize() > 0)
+    {
+        returnPos.removeHead();
+    }
+
+    int i;
+    for(i=0;i < playerPosList->getSize();i++)
+    {
+        returnPos.insertTail(playerPosList->getElement(i));
+    }
 }
 
 //FSM
