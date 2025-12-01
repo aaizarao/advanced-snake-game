@@ -26,7 +26,7 @@ void Player::getPlayerPos(objPosArrayList &returnPos) const
     // return the reference to the playerPos arrray list
     while(returnPos.getSize() > 0)
     {
-        returnPos.removeHead();
+        returnPos.removeTail();
     }
 
     int i;
