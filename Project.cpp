@@ -87,7 +87,7 @@ void RunLogic(void)
 
     playerObj-> updatePlayerDir();
     playerObj-> movePlayer();
-  //  gm->clearInput();
+    gm->clearInput();
 }
 
 //DRAW SCREEN ROUTINE

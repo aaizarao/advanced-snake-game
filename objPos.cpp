@@ -38,9 +38,10 @@ objPos& objPos::operator=(const objPos& o)
        {
         pos = new Pos;
        }
-        pos->x = o.pos->x;    // Just copy the values
-        pos->y = o.pos->y;
-        symbol = o.symbol;
+
+    pos->x = o.pos->x; //jus copying the values
+    pos->y = o.pos->y;
+    symbol = o.symbol;
     }
     return *this;
 }

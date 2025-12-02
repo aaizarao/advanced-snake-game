@@ -5,14 +5,14 @@ objPosArrayList::objPosArrayList(){ // default constructor
     listSize = 0;
     arrayCapacity = ARRAY_MAX_CAP;
 
-    // Initialize ALL elements to avoid destructor issues
-    for(int i = 0; i < ARRAY_MAX_CAP; i++)
-    {
-        aList[i].pos = new Pos;  // Ensure every element has valid memory
-        aList[i].pos->x = 0;
-        aList[i].pos->y = 0;
-        aList[i].symbol = 0;
-    }
+    // // Initialize ALL elements to avoid destructor issues
+    // for(int i = 0; i < ARRAY_MAX_CAP; i++)
+    // {
+    //     aList[i].pos = new Pos;  // Ensure every element has valid memory
+    //     aList[i].pos->x = 0;
+    //     aList[i].pos->y = 0;
+    //     aList[i].symbol = 0;
+    // }
 }
 
 objPosArrayList::~objPosArrayList(){ // destructor
