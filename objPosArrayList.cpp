@@ -26,6 +26,9 @@ objPos objPosArrayList::getHeadElement() const
 
 objPos objPosArrayList::getTailElement() const
 {
+     if(listSize <= 0) {
+        return objPos(0, 0, ' ');  // Return default instead of crashing
+    }
     return aList[listSize - 1];
 }
 
@@ -35,6 +38,9 @@ int objPosArrayList::getSize() const{
 
 objPos objPosArrayList::getElement(int index) const
 {
+    if(index < 0 || index >= listSize) {
+        return objPos(0, 0, ' ');  // Return default instead of crashing
+    }
     return aList[index];
 }
 
@@ -79,6 +85,8 @@ void objPosArrayList::removeHead()
     {
         aList[i-1] = aList[i];
     }
+
+    aList[listSize - 1].setObjPos(0, 0, 0);
     listSize--;
 }
 
@@ -89,6 +97,7 @@ void objPosArrayList::removeTail(){
         return;
     }
 
+    aList[listSize - 1].setObjPos(0, 0, 0);  // Reset to default
     listSize--; // makes last element accessible
     
 }
