@@ -95,6 +95,25 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen(); 
 
+    //game win setup
+    // if(gm-> getWinFlagStatus())
+    // {
+    //     MacUILib_printf("==== GAME OVER ====\n");
+    //     MacUILib_printf("You collided with yourself!\n\n");
+    //     MacUILib_printf("Final Score: %d\n", gm->getScore());
+    //     MacUILib_printf("\nPress SPACE to exit ...\n");
+    //     return;
+    // }
+    //game end setup
+    if (gm-> getLoseFlagStatus())
+    {
+        MacUILib_printf("==== GAME OVER ====\n");
+        MacUILib_printf("You collided with yourself!\n\n");
+        MacUILib_printf("Final Score: %d\n", gm->getScore());
+        MacUILib_printf("\nPress SPACE to exit ...\n");
+        return;
+    }
+
     //display controls
     MacUILib_printf("Score: %d\n", gm->getScore());
     MacUILib_printf("Controls: W A S D to move and SPACE to quit\n\n");
