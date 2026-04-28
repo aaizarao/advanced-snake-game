@@ -5,11 +5,7 @@ A modern implementation of the classic Snake game built with interactive gamepla
 
 ***Features***
 
-Responsive keyboard controls
-Score tracking system
-Collision detection
-Smooth game loop and rendering
-Increasing difficulty over time
+Involves responsive keyboard controls, score tracking system, collision detection, smooth game loop and rendering to increase difficulty over time,
 
 ***How to Run***
 1. Clone the repository
