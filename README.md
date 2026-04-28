@@ -1,4 +1,17 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/hPg6U8MY)
-# COE2SH4-PPA3Template
-Project by Aaiza Rao and Fatema Hasan
+
+***Real-Time Grid Based Snake Game***
+
+A modern implementation of the classic Snake game built with interactive gameplay mechanics and smooth controls. The project focuses on game logic, real-time input handling, and dynamic rendering.
+
+***Features***
+Responsive keyboard controls
+Score tracking system
+Collision detection
+Smooth game loop and rendering
+Increasing difficulty over time
+
+***How to Run***
+1. Clone the repository
+2. Open the project in your development environment
+3. Run the main file to start the game
 
