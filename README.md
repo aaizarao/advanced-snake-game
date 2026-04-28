@@ -4,6 +4,7 @@
 A modern implementation of the classic Snake game built with interactive gameplay mechanics and smooth controls. The project focuses on game logic, real-time input handling, and dynamic rendering.
 
 ***Features***
+
 Responsive keyboard controls
 Score tracking system
 Collision detection
